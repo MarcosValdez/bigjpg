@@ -1,3 +1,5 @@
+# Trabajo semanal 1
+
 ## Crear entorno virtual
 
 ```
@@ -16,6 +18,13 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+## Ejecutar el programa
+
+```
+python app.py
+```
+
 ## Salir del entorno virtual
 ```
 .\venv\Scripts\deactivate
+```
