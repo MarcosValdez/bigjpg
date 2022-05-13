@@ -16,6 +16,8 @@ import cloudinary
 import requests
 import json
 
+import time
+
 def main():
 
     ventana=tk.Tk() 
@@ -90,9 +92,9 @@ def main():
 
     def guardar_imagen():
         cloudinary.config( 
-            cloud_name = "doh7eom1j", 
-            api_key = "218576176667494", 
-            api_secret = "XIIe3Gl9T6f11Ei4jUcgLX8hrlI",
+            cloud_name = "dfvalentin", 
+            api_key = "897557139935321", 
+            api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
         )
 
         DEFAULT_TAG = "python_sample_basic"
@@ -109,11 +111,13 @@ def main():
         return url
 
     def enviar_imagen():
+        tid = ""
         link_image = guardar_imagen()
+        print(link_image)
         # print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}\n{link_image}")
 
         data = {
-            'style': f"{comboStyle.get()}",
+            'style': f"{comboStyle.get()}".lower(),
             'noise': f"{comboNoise.get()}",
             'x2': f"{comboX2.get()}",
             'input': f"{link_image}"
@@ -121,17 +125,24 @@ def main():
 
         r = requests.post(
             url='https://bigjpg.com/api/task/',
-            headers={'X-API-KEY': '21eb74b866894ad9b751cbfe09e2ddd3'},
+            headers={'X-API-KEY': '681096d20b9b4b0a9f47c578f4e14307'},
             data={'conf': json.dumps(data)}
         )
         print(r.json())
+        tid = r.json().get('tid')
+        print(tid)
+
+        time.sleep(15)
+
+        r = requests.get(url='https://bigjpg.com/api/task/{}'.format(tid))
+        print(r.json())
+
+        rpta_api = r.json().get(tid)
+        url_img_procesada = rpta_api.get('url')
+        print(url_img_procesada)
 
 
-        #r = requests.get(url='https://bigjpg.com/api/task/#########')
-        #print(r.json()) 
 
-
-        
     button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
     button.place(x=100, y=310)
 
