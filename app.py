@@ -15,10 +15,40 @@ from cloudinary.utils import cloudinary_url
 import cloudinary
 
 import requests
+from io import BytesIO
 import json
+import time
+
+class WebImage:
+    def __init__(self,url):
+        u = requests.get(url)
+        self.image = ImageTk.PhotoImage(Image.open(BytesIO(u.content)))
+        
+    def get(self):
+        return self.image
+
+def guardar_imagen():
+        cloudinary.config( 
+            cloud_name = "dfvalentin", 
+            api_key = "897557139935321", 
+            api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
+        )
+
+        DEFAULT_TAG = "python_sample_basic"
+        response = upload( ruta_image, tags=DEFAULT_TAG)
+        # dump_response(response)
+        url, options = cloudinary_url(
+            response['public_id'],
+            format=response['format'],
+            width=200,
+            height=150,
+            crop="fit"
+        )
+        #print("Fit into 200x150 url: " + url)
+        return url
 
 def main():
-
+    
     ventana=tk.Tk() 
 
     ventana.title('UNMSM-FISI | Software-Inteligente')
@@ -63,16 +93,11 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=580,y=280)
 
-
-    lbltexto=tk.Label(frame,text=' Imagen Ingresada:', font=("Helvetica", 14))   #Crea una etiqueta
-    lbltexto.config(bg="lightblue")
-    lbltexto.place(x=130,y=alto_ventana)
-
     l=tk.Label(frame,text='', image=None)   #Crea una etiqueta
     l.config(bg="lightblue")
     l.place(x=70,y=alto_ventana + 40)
 
-    ruta_image = ""
+    #ruta_image = ""
 
     def openpicture():
         global img
@@ -82,6 +107,48 @@ def main():
         img=ImageTk.PhotoImage(Image.open(filename).resize((300,300)))   #tkinter solo puede abrir archivos gif, aquí use la biblioteca PIL
         print(filename)
         l.config(image=img)    #Utilice el método de configuración para colocar la imagen en la etiqueta
+
+
+    def dump_response(response):
+        print("Upload response:")
+        for key in sorted(response.keys()):
+            print("  %s: %s" % (key, response[key]))
+
+    
+    imagenGenerada = ''
+    def enviar_imagen():
+
+        global imagenGenerada        
+        tid = ""
+        link_image = guardar_imagen()
+        print(link_image)
+        # print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}\n{link_image}")
+
+        data = {
+            'style': f"{comboStyle.get()}".lower(),
+            'noise': f"{comboNoise.get()}",
+            'x2': f"{comboX2.get()}",
+            'input': f"{link_image}"
+        }
+
+        r = requests.post(
+            url='https://bigjpg.com/api/task/',
+            headers={'X-API-KEY': '681096d20b9b4b0a9f47c578f4e14307'},
+            data={'conf': json.dumps(data)}
+        )
+        print(r.json())
+        tid = r.json().get('tid')
+        print(tid)
+
+        time.sleep(15)
+
+        r = requests.get(url='https://bigjpg.com/api/task/{}'.format(tid))
+        print(r.json())
+
+        rpta_api = r.json().get(tid)
+        url_img_procesada = rpta_api.get('url')
+        print(url_img_procesada)
+        imagenGenerada = url_img_procesada
 
 
     #Datos de Entrada
@@ -116,7 +183,20 @@ def main():
     lblTitulo.config(bg="lightblue")
     comboX2.place(x=650, y=355)
 
+    lbltexto=tk.Label(frame,text=' Imagen Ingresada:', font=("Helvetica", 14))   #Crea una etiqueta
+    lbltexto.config(bg="lightblue")
+    lbltexto.place(x=130,y=alto_ventana)
+
+    button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
+    button.place(x=550, y=alto_ventana)
+
+    img = WebImage(imagenGenerada).get()
+    imagelab = Label(frame, image = img)
+    imagelab.place(x=550,y=alto_ventana + 40)
+
     ventana.mainloop()
+
+
 
 if __name__ == '__main__':
     main()
