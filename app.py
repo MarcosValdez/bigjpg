@@ -33,11 +33,11 @@ def main():
 
     frame.config(width=ancho_ventana,height=alto_ventana+alto_ventana-30, bg="lightblue")
 
-    lblTitulo=tk.Label(frame,text='Trabajo Semanal 1', font=("Helvetica", 24))   #Crea una etiqueta
+    lblTitulo=tk.Label(frame,text='Trabajo Semanal 1 | Disminución del ruido en imágenes', font=("Helvetica", 24))   #Crea una etiqueta
     lblTitulo.config(bg="lightblue")
-    lblTitulo.place(x=325,y=20)
+    lblTitulo.place(x=50,y=20)
 
-    img = ImageTk.PhotoImage(Image.open('./img/EscudoSanMarcos.png').resize((512,225)))
+    img = ImageTk.PhotoImage(Image.open('./img/Fisi.jpg').resize((512,225)))
     lbl_img = Label(frame, image=img)
     lbl_img.place(x=30,y=80)
 
