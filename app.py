@@ -43,7 +43,7 @@ def main():
     l=tk.Label(frame,text='', image=None)   #Crea una etiqueta
     l.pack()
 
-    ruta_image = ""
+    # ruta_image = ""
 
     def openpicture():
         global img
