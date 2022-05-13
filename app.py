@@ -20,6 +20,10 @@ def main():
 
     ventana=tk.Tk() 
 
+    ventana.title('UNMSM-FISI | Software-Inteligente')
+    ventana.iconbitmap('img/artificialintelligence.ico')
+    ventana.resizable(0,0)
+
     ancho_ventana = 900
     alto_ventana = 600
 
@@ -28,37 +32,7 @@ def main():
 
     posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana) + "+" + str(y_ventana)
     ventana.geometry(posicion)
-
-    ventana.title('UNMSM-FISI | Software-Inteligente')
-    ventana.iconbitmap('img/artificialintelligence.ico')
-    ventana.resizable(0,0)
-
-
-    lblTitulo=tk.Label(ventana,text='Trabajo Semanal 1', font=("Helvetica", 24))   #Crea una etiqueta
-    lblTitulo.pack(pady=20)
-
-    lblTitulo=tk.Label(ventana,text='Seleccione la imagen')   #Crea una etiqueta
-    lblTitulo.place(x=100,y=70)
-
-    lblTitulo=tk.Label(ventana,text='Seleccione el estilo')   #Crea una etiqueta
-    lblTitulo.place(x=100,y=130)
-
-    comboStyle = ttk.Combobox(state="readonly", values=["Art", "Photo"])
-    comboStyle.place(x=100, y=160)
-
-    lblTitulo=tk.Label(ventana,text='Seleccione el ruido')   #Crea una etiqueta
-    lblTitulo.place(x=100,y=190)
-
-    comboNoise = ttk.Combobox(state="readonly", values=["-1", "0", "1", "2", "3"])
-    comboNoise.place(x=100, y=220)
-
-    lblTitulo=tk.Label(ventana,text='Seleccione el X2')   #Crea una etiqueta
-    lblTitulo.place(x=100,y=250)
-
-    comboX2 = ttk.Combobox(state="readonly", values=["1", "2", "3", "4"])
-    comboX2.place(x=100, y=280)
-
-
+    
     frame = tk.Frame()
     frame.pack()      
 
@@ -79,11 +53,34 @@ def main():
         img=ImageTk.PhotoImage(Image.open(filename))   #tkinter solo puede abrir archivos gif, aquí use la biblioteca PIL
         print(filename)
         l.config(image=img)    #Utilice el método de configuración para colocar la imagen en la etiqueta
-    
 
+    
+    lblTitulo=tk.Label(ventana,text='Trabajo Semanal 1', font=("Helvetica", 24))   #Crea una etiqueta
+    lblTitulo.pack(pady=20)
+
+    lblTitulo=tk.Label(ventana,text='Seleccione la imagen')   #Crea una etiqueta
+    lblTitulo.place(x=100,y=70)
 
     b=tk.Button(ventana,text='Seleccione una imagen', command=openpicture)  # Configure el botón y dele el comando openpicture
     b.place(x=100, y=100)
+
+    lblTitulo=tk.Label(ventana,text='Seleccione el estilo')   #Crea una etiqueta
+    lblTitulo.place(x=100,y=130)
+
+    comboStyle = ttk.Combobox(state="readonly", values=["Art", "Photo"])
+    comboStyle.place(x=100, y=160)
+
+    lblTitulo=tk.Label(ventana,text='Seleccione el ruido')   #Crea una etiqueta
+    lblTitulo.place(x=100,y=190)
+
+    comboNoise = ttk.Combobox(state="readonly", values=["-1", "0", "1", "2", "3"])
+    comboNoise.place(x=100, y=220)
+
+    lblTitulo=tk.Label(ventana,text='Seleccione el X2')   #Crea una etiqueta
+    lblTitulo.place(x=100,y=250)
+
+    comboX2 = ttk.Combobox(state="readonly", values=["1", "2", "3", "4"])
+    comboX2.place(x=100, y=280)
 
 
     def dump_response(response):
