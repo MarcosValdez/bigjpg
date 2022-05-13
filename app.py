@@ -19,32 +19,40 @@ ventana.title('UNMSM-FISI | Software-Inteligente')
 ventana.iconbitmap('img/artificialintelligence.ico')
 ventana.resizable(0,0)
 
-# l=tk.Label(ventana,text='Imagen en baja calidad para procesar', image=None)   #Crea una etiqueta
-# l.place(x=50,y=10)
+lblTitulo=tk.Label(ventana,text='Trabajo Semanal 1', font=("Helvetica", 24))   #Crea una etiqueta
+lblTitulo.pack()
+
+
+lblTitulo=tk.Label(ventana,text='Seleccione la imagen')   #Crea una etiqueta
+lblTitulo.place(x=100,y=70)
+
+lblTitulo=tk.Label(ventana,text='Seleccione el estilo')   #Crea una etiqueta
+lblTitulo.place(x=100,y=130)
 
 comboStyle = ttk.Combobox(state="readonly", values=["Art", "Photo"])
-comboStyle.place(x=50, y=50)
+comboStyle.place(x=100, y=160)
+
+lblTitulo=tk.Label(ventana,text='Seleccione el ruido')   #Crea una etiqueta
+lblTitulo.place(x=100,y=190)
 
 comboNoise = ttk.Combobox(state="readonly", values=["-1", "0", "1", "2", "3"])
-comboNoise.place(x=50, y=150)
+comboNoise.place(x=100, y=220)
+
+lblTitulo=tk.Label(ventana,text='Seleccione el X2')   #Crea una etiqueta
+lblTitulo.place(x=100,y=250)
 
 comboX2 = ttk.Combobox(state="readonly", values=["1", "2", "3", "4"])
-comboX2.place(x=50, y=250)
+comboX2.place(x=100, y=280)
 
 frame = tk.Frame()
 frame.pack()      
 
-# Como no tenemos ningún elemento dentro del frame, 
-# no tiene tamaño y aparece ocupando lo mínimo posible, 0*0 px
-
-# Color de fondo, background
 frame.config(bg="lightblue")     
+frame.config(width=ancho_ventana / 2 - 20,height=alto_ventana - 60)
+frame.place(x=ancho_ventana / 2 + 10,y= 50)
 
-# Podemos establecer un tamaño,
-# la raíz se adapta al frame que contiene
-frame.config(width=480,height=320) 
-l=tk.Label(frame,text='Imagen en baja calidad para procesar', image=None)   #Crea una etiqueta
-l.place(x=50,y=10)
+l=tk.Label(frame,text='', image=None)   #Crea una etiqueta
+l.pack()
 
 def openpicture():
     global img
@@ -56,7 +64,11 @@ def openpicture():
 
 
 b=tk.Button(ventana,text='Seleccione una imagen', command=openpicture)  # Configure el botón y dele el comando openpicture
-b.place(x=50, y=100)
+b.place(x=100, y=100)
+
+
+lblTitulo=tk.Label(ventana,text='Integrantes:\n- Marcos Valdez Alexander 18200089\n- Navarro Ortiz Eduardo 18200279\n- Quinteros Peralta Rodrigo 18200316\n- Tirado Julca Juan Jose 18200117\n- Valentin Ricaldi David 18200103', font=("Helvetica", 12))   #Crea una etiqueta
+lblTitulo.place(x=50,y=alto_ventana - 200)
 
 tk.mainloop()
 
