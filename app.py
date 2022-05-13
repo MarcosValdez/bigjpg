@@ -18,34 +18,41 @@ import requests
 from io import BytesIO
 import json
 import time
+import urllib.request
 
-class WebImage:
+
+""" class WebImage:
     def __init__(self,url):
         u = requests.get(url)
         self.image = ImageTk.PhotoImage(Image.open(BytesIO(u.content)))
         
     def get(self):
-        return self.image
+        return self.image """
 
 def guardar_imagen():
-        cloudinary.config( 
-            cloud_name = "dfvalentin", 
-            api_key = "897557139935321", 
-            api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
+    # cloudinary.config( 
+    #     cloud_name = "dfvalentin", 
+    #     api_key = "897557139935321", 
+    #     api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
+    # )
+    cloudinary.config( 
+        cloud_name = "doh7eom1j", 
+        api_key = "218576176667494", 
+        api_secret = "XIIe3Gl9T6f11Ei4jUcgLX8hrlI",
         )
 
-        DEFAULT_TAG = "python_sample_basic"
-        response = upload( ruta_image, tags=DEFAULT_TAG)
-        # dump_response(response)
-        url, options = cloudinary_url(
-            response['public_id'],
-            format=response['format'],
-            width=200,
-            height=150,
-            crop="fit"
-        )
-        #print("Fit into 200x150 url: " + url)
-        return url
+    DEFAULT_TAG = "python_sample_basic"
+    response = upload( ruta_image, tags=DEFAULT_TAG)
+    # dump_response(response)
+    url, options = cloudinary_url(
+        response['public_id'],
+        format=response['format'],
+        width=200,
+        height=150,
+        crop="fit"
+    )
+    #print("Fit into 200x150 url: " + url)
+    return url
 
 def main():
     
@@ -97,6 +104,8 @@ def main():
     l.config(bg="lightblue")
     l.place(x=70,y=alto_ventana + 40)
 
+    descarga_imagen = False
+
     #ruta_image = ""
 
     def openpicture():
@@ -118,7 +127,8 @@ def main():
     imagenGenerada = ''
     def enviar_imagen():
 
-        global imagenGenerada        
+        global imagenGenerada 
+        global descarga_imagen       
         tid = ""
         link_image = guardar_imagen()
         print(link_image)
@@ -133,7 +143,7 @@ def main():
 
         r = requests.post(
             url='https://bigjpg.com/api/task/',
-            headers={'X-API-KEY': '681096d20b9b4b0a9f47c578f4e14307'},
+            headers={'X-API-KEY': '21eb74b866894ad9b751cbfe09e2ddd3'},
             data={'conf': json.dumps(data)}
         )
         print(r.json())
@@ -149,6 +159,12 @@ def main():
         url_img_procesada = rpta_api.get('url')
         print(url_img_procesada)
         imagenGenerada = url_img_procesada
+        urllib.request.urlretrieve(imagenGenerada, "test.jpg")
+        descarga_imagen = True
+
+        # img2 = ImageTk.PhotoImage(Image.open('./test.jpg').resize((512,225)))
+        # lbl_img2 = Label(frame, image=img2)
+        # lbl_img2.place(x=550,y=alto_ventana + 40)
 
 
     #Datos de Entrada
@@ -189,10 +205,6 @@ def main():
 
     button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
     button.place(x=550, y=alto_ventana)
-
-    img = WebImage(imagenGenerada).get()
-    imagelab = Label(frame, image = img)
-    imagelab.place(x=550,y=alto_ventana + 40)
 
     ventana.mainloop()
 
