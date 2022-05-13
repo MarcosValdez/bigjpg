@@ -10,6 +10,8 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import cloudinary
 
+import requests
+import json
 
 ruta_image = ""
 ventana=tk.Tk()   #Crear objeto
@@ -91,7 +93,7 @@ def guardar_imagen():
 
     DEFAULT_TAG = "python_sample_basic"
     response = upload( ruta_image, tags=DEFAULT_TAG)
-    dump_response(response)
+    # dump_response(response)
     url, options = cloudinary_url(
         response['public_id'],
         format=response['format'],
@@ -99,12 +101,34 @@ def guardar_imagen():
         height=150,
         crop="fit"
     )
-    print("Fit into 200x150 url: " + url)
+    #print("Fit into 200x150 url: " + url)
+    return url
 
 def enviar_imagen():
-    print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}")
+    link_image = guardar_imagen()
+    # print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}\n{link_image}")
+
+    data = {
+        'style': f"{comboStyle.get()}",
+        'noise': f"{comboNoise.get()}",
+        'x2': f"{comboX2.get()}",
+        'input': f"{link_image}"
+    }
+
+    r = requests.post(
+        url='https://bigjpg.com/api/task/',
+        headers={'X-API-KEY': '21eb74b866894ad9b751cbfe09e2ddd3'},
+        data={'conf': json.dumps(data)}
+    )
+    print(r.json())
+
+
+    #r = requests.get(url='https://bigjpg.com/api/task/#########')
+    #print(r.json()) 
+
+
     
-button = ttk.Button(text="Convertir imagen", command=guardar_imagen)
+button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
 button.place(x=100, y=310)
 
 lblTitulo=tk.Label(ventana,text='Integrantes:\n- Marcos Valdez Alexander 18200089\n- Navarro Ortiz Eduardo 18200279\n- Quinteros Peralta Rodrigo 18200316\n- Tirado Julca Juan Jose 18200117\n- Valentin Ricaldi David 18200103', font=("Helvetica", 12))   #Crea una etiqueta
