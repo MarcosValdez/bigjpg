@@ -5,6 +5,12 @@ from tkinter import filedialog       #Obtenga la ruta completa del archivo
 from tkinter import ttk
 
 
+from cloudinary.api import delete_resources_by_tag, resources_by_tag
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
+import cloudinary
+
+
 ruta_image = ""
 ventana=tk.Tk()   #Crear objeto
 
@@ -70,10 +76,35 @@ def openpicture():
 b=tk.Button(ventana,text='Seleccione una imagen', command=openpicture)  # Configure el botón y dele el comando openpicture
 b.place(x=100, y=100)
 
+
+def dump_response(response):
+    print("Upload response:")
+    for key in sorted(response.keys()):
+        print("  %s: %s" % (key, response[key]))
+
+def guardar_imagen():
+    cloudinary.config( 
+        cloud_name = "doh7eom1j", 
+        api_key = "218576176667494", 
+        api_secret = "XIIe3Gl9T6f11Ei4jUcgLX8hrlI",
+    )
+
+    DEFAULT_TAG = "python_sample_basic"
+    response = upload( ruta_image, tags=DEFAULT_TAG)
+    dump_response(response)
+    url, options = cloudinary_url(
+        response['public_id'],
+        format=response['format'],
+        width=200,
+        height=150,
+        crop="fit"
+    )
+    print("Fit into 200x150 url: " + url)
+
 def enviar_imagen():
     print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}")
     
-button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
+button = ttk.Button(text="Convertir imagen", command=guardar_imagen)
 button.place(x=100, y=310)
 
 lblTitulo=tk.Label(ventana,text='Integrantes:\n- Marcos Valdez Alexander 18200089\n- Navarro Ortiz Eduardo 18200279\n- Quinteros Peralta Rodrigo 18200316\n- Tirado Julca Juan Jose 18200117\n- Valentin Ricaldi David 18200103', font=("Helvetica", 12))   #Crea una etiqueta
