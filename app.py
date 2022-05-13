@@ -4,6 +4,8 @@ from PIL import ImageTk,Image
 from tkinter import filedialog       #Obtenga la ruta completa del archivo
 from tkinter import ttk
 
+
+ruta_image = ""
 ventana=tk.Tk()   #Crear objeto
 
 ancho_ventana = 900
@@ -56,7 +58,9 @@ l.pack()
 
 def openpicture():
     global img
+    global ruta_image
     filename=filedialog.askopenfilename(initialdir=os.getcwd(),filetypes=[("jpg files", "*.jpg")])     #Obtenga la ruta completa del archivo
+    ruta_image=filename
     img=ImageTk.PhotoImage(Image.open(filename))   #tkinter solo puede abrir archivos gif, aquí use la biblioteca PIL
     print(filename)
     l.config(image=img)    #Utilice el método de configuración para colocar la imagen en la etiqueta
@@ -66,9 +70,17 @@ def openpicture():
 b=tk.Button(ventana,text='Seleccione una imagen', command=openpicture)  # Configure el botón y dele el comando openpicture
 b.place(x=100, y=100)
 
+def enviar_imagen():
+    print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}")
+    
+button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
+button.place(x=100, y=310)
 
 lblTitulo=tk.Label(ventana,text='Integrantes:\n- Marcos Valdez Alexander 18200089\n- Navarro Ortiz Eduardo 18200279\n- Quinteros Peralta Rodrigo 18200316\n- Tirado Julca Juan Jose 18200117\n- Valentin Ricaldi David 18200103', font=("Helvetica", 12))   #Crea una etiqueta
 lblTitulo.place(x=50,y=alto_ventana - 200)
+
+
+
 
 tk.mainloop()
 
