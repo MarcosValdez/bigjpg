@@ -198,7 +198,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=650,y=325)
 
-    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2", "3", "4"])
+    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2"])
     lblTitulo.config(bg="lightblue")
     comboX2.place(x=650, y=355)
 
@@ -213,10 +213,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=400,y=alto_ventana + 40)
 
-
     ventana.mainloop()
-
-
 
 if __name__ == '__main__':
     main()
