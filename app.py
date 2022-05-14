@@ -20,30 +20,15 @@ import json
 import time
 import urllib.request
 
-
-""" class WebImage:
-    def __init__(self,url):
-        u = requests.get(url)
-        self.image = ImageTk.PhotoImage(Image.open(BytesIO(u.content)))
-        
-    def get(self):
-        return self.image """
-
 def guardar_imagen():
-    # cloudinary.config( 
-    #     cloud_name = "dfvalentin", 
-    #     api_key = "897557139935321", 
-    #     api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
-    # )
     cloudinary.config( 
-        cloud_name = "doh7eom1j", 
-        api_key = "218576176667494", 
-        api_secret = "XIIe3Gl9T6f11Ei4jUcgLX8hrlI",
-        )
+        cloud_name = "dfvalentin", 
+        api_key = "897557139935321", 
+        api_secret = "aIbNmOBA99y6kXhAjqd4T-9wGIA",
+    )
 
     DEFAULT_TAG = "python_sample_basic"
     response = upload( ruta_image, tags=DEFAULT_TAG)
-    # dump_response(response)
     url, options = cloudinary_url(
         response['public_id'],
         format=response['format'],
@@ -51,7 +36,6 @@ def guardar_imagen():
         height=150,
         crop="fit"
     )
-    #print("Fit into 200x150 url: " + url)
     return url
 
 def main():
@@ -106,7 +90,6 @@ def main():
 
     descarga_imagen = False
 
-    #ruta_image = ""
 
     def openpicture():
         global img
@@ -132,7 +115,6 @@ def main():
         tid = ""
         link_image = guardar_imagen()
         print(link_image)
-        # print(f"{comboStyle.get()}\n{comboNoise.get()}\n{comboX2.get()}\n{ruta_image}\n{link_image}")
 
         data = {
             'style': f"{comboStyle.get()}".lower(),
@@ -143,9 +125,11 @@ def main():
 
         r = requests.post(
             url='https://bigjpg.com/api/task/',
-            headers={'X-API-KEY': '21eb74b866894ad9b751cbfe09e2ddd3'},
+            headers={'X-API-KEY': '681096d20b9b4b0a9f47c578f4e14307'},
             data={'conf': json.dumps(data)}
         )
+
+     
         print(r.json())
         tid = r.json().get('tid')
         print(tid)
@@ -159,13 +143,8 @@ def main():
         url_img_procesada = rpta_api.get('url')
         print(url_img_procesada)
         imagenGenerada = url_img_procesada
-        urllib.request.urlretrieve(imagenGenerada, "test.jpg")
+        urllib.request.urlretrieve(imagenGenerada, "resultado.jpg")
         descarga_imagen = True
-
-        # img2 = ImageTk.PhotoImage(Image.open('./test.jpg').resize((512,225)))
-        # lbl_img2 = Label(frame, image=img2)
-        # lbl_img2.place(x=550,y=alto_ventana + 40)
-
 
     #Datos de Entrada
     lblTitulo=tk.Label(frame,text='Seleccione la imagen')   #Crea una etiqueta
@@ -187,7 +166,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=450,y=325)
 
-    comboNoise = ttk.Combobox(frame, state="readonly", values=["-1", "0", "1", "2", "3"])
+    comboNoise = ttk.Combobox(frame, state="readonly", values=["1", "2"])
     lblTitulo.config(bg="lightblue")
     comboNoise.place(x=450, y=355)
 
@@ -195,7 +174,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=650,y=325)
 
-    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2", "3", "4"])
+    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2"])
     lblTitulo.config(bg="lightblue")
     comboX2.place(x=650, y=355)
 
