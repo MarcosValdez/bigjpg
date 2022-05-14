@@ -1,12 +1,12 @@
 #Librerias de python
-import os
-from PIL import ImageTk,Image
+import os #Permite realizar operaciones como crear una carpeta, conocer acerca de un proceso, finalizar un proceso, etc.
+from PIL import ImageTk,Image #Permite la edicion de imagenes directamente desde Python.
 
 #Librerias de tkinter
-import tkinter as tk
+import tkinter as tk #Permitira manipular widgets en la GUI.
 from tkinter import filedialog #Obtenga la ruta completa del archivo
-from tkinter import ttk
-from tkinter import Label
+from tkinter import ttk #Provee una mejor apariencia a la GUI
+from tkinter import Label #Permitira usar labels
 
 #Librerias del cloudinary
 from cloudinary.api import delete_resources_by_tag, resources_by_tag
