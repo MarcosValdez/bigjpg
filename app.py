@@ -113,6 +113,7 @@ def main():
         global imagenGenerada 
         global descarga_imagen       
         tid = ""
+
         link_image = guardar_imagen()
         print(link_image)
 
@@ -145,6 +146,11 @@ def main():
         imagenGenerada = url_img_procesada
         urllib.request.urlretrieve(imagenGenerada, "resultado.jpg")
         descarga_imagen = True
+
+        
+        lblTitulo=tk.Label(frame,text='La imagen se ha descargado')   #Crea una etiqueta
+        lblTitulo.config(bg="lightblue")
+        lblTitulo.place(x=400,y=alto_ventana + 100)
 
     #Datos de Entrada
     lblTitulo=tk.Label(frame,text='Seleccione la imagen')   #Crea una etiqueta
@@ -185,9 +191,11 @@ def main():
     button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
     button.place(x=550, y=alto_ventana)
 
+    lblTitulo=tk.Label(frame,text='Espere por favor')   #Crea una etiqueta
+    lblTitulo.config(bg="lightblue")
+    lblTitulo.place(x=400,y=alto_ventana + 40)
+
     ventana.mainloop()
-
-
 
 if __name__ == '__main__':
     main()
