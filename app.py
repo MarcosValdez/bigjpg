@@ -9,18 +9,19 @@ from tkinter import ttk #Provee una mejor apariencia a la GUI
 from tkinter import Label #Permitira usar labels
 
 #Librerias del cloudinary
-from cloudinary.api import delete_resources_by_tag, resources_by_tag
-from cloudinary.uploader import upload
-from cloudinary.utils import cloudinary_url
-import cloudinary
+from cloudinary.api import delete_resources_by_tag, resources_by_tag #Permitira administrar la api de cloudinary 
+from cloudinary.uploader import upload #Permitira subir nuestras imagenes
+from cloudinary.utils import cloudinary_url #Obtendremos el url 
+import cloudinary #Para almacenar las imagenes.
 
-import requests
-from io import BytesIO
-import json
-import time
-import urllib.request
+import requests #Facilita el trabajo con peticiones HTTP
+from io import BytesIO #Para manejar diferentes tipos de E/S como por ejemplo de tipo binario
+import json #Permite utilizar Json
+import time #Para medir el tiempo
+import urllib.request #Para soportar nuevos protocolos.
 
 def guardar_imagen():
+#Credenciales de cloudinary:
     cloudinary.config( 
         cloud_name = "dfvalentin", 
         api_key = "897557139935321", 
@@ -32,6 +33,7 @@ def guardar_imagen():
     url, options = cloudinary_url(
         response['public_id'],
         format=response['format'],
+        #Estableciendo dimensiones:
         width=200,
         height=150,
         crop="fit"
@@ -39,14 +41,14 @@ def guardar_imagen():
     return url
 
 def main():
-    
+    #Propiedades de la ventana de la aplicacion:
     ventana=tk.Tk() 
 
-    ventana.title('UNMSM-FISI | Software-Inteligente')
+    ventana.title('UNMSM-FISI | Software-Inteligente') #Titulo de la ventana de la aplicacion
     ventana.iconbitmap('img/artificialintelligence.ico')
     ventana.resizable(0,0)
 
-    ancho_ventana = 900
+    ancho_ventana = 900 
     alto_ventana = 410
 
     frame = tk.Frame()
@@ -68,6 +70,7 @@ def main():
     lblTitulo=tk.Label(frame,text='Integrantes:', font=("Helvetica", 16))   #Crea una etiqueta
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=580,y=150)
+    #Etiquetas con los nombres de los integrantes:
     lblTitulo=tk.Label(frame,text='- Marcos Valdez Alexander   18200089', font=("Helvetica", 12))   #Crea una etiqueta
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=580,y=180)
@@ -86,7 +89,7 @@ def main():
 
     l=tk.Label(frame,text='', image=None)   #Crea una etiqueta
     l.config(bg="lightblue")
-    l.place(x=70,y=alto_ventana + 40)
+    l.place(x=70,y=alto_ventana + 40) #Posicion de la ventana
 
     descarga_imagen = False
 
@@ -116,14 +119,14 @@ def main():
 
         link_image = guardar_imagen()
         print(link_image)
-
+        #Datos de entrada para la aplicacion:
         data = {
             'style': f"{comboStyle.get()}".lower(),
             'noise': f"{comboNoise.get()}",
             'x2': f"{comboX2.get()}",
             'input': f"{link_image}"
         }
-
+         #API bigjpg
         r = requests.post(
             url='https://bigjpg.com/api/task/',
             headers={'X-API-KEY': '681096d20b9b4b0a9f47c578f4e14307'},
@@ -135,11 +138,11 @@ def main():
         tid = r.json().get('tid')
         print(tid)
 
-        time.sleep(15)
+        time.sleep(15) #tiempo de espera
 
         r = requests.get(url='https://bigjpg.com/api/task/{}'.format(tid))
         print(r.json())
-
+        #Pasando la imagen
         rpta_api = r.json().get(tid)
         url_img_procesada = rpta_api.get('url')
         print(url_img_procesada)
@@ -164,7 +167,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=250,y=325)
 
-    comboStyle = ttk.Combobox(frame, state="readonly", values=["Art", "Photo"])
+    comboStyle = ttk.Combobox(frame, state="readonly", values=["Art", "Photo"]) #Crea un Combobox
     lblTitulo.config(bg="lightblue")
     comboStyle.place(x=250, y=355)
 
@@ -172,7 +175,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=450,y=325)
 
-    comboNoise = ttk.Combobox(frame, state="readonly", values=["1", "2"])
+    comboNoise = ttk.Combobox(frame, state="readonly", values=["1", "2"]) #Crea un Combobox
     lblTitulo.config(bg="lightblue")
     comboNoise.place(x=450, y=355)
 
@@ -180,7 +183,7 @@ def main():
     lblTitulo.config(bg="lightblue")
     lblTitulo.place(x=650,y=325)
 
-    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2"])
+    comboX2 = ttk.Combobox(frame, state="readonly", values=["1", "2"]) #Crea un Combobox
     lblTitulo.config(bg="lightblue")
     comboX2.place(x=650, y=355)
 
@@ -188,7 +191,7 @@ def main():
     lbltexto.config(bg="lightblue")
     lbltexto.place(x=130,y=alto_ventana)
 
-    button = ttk.Button(text="Convertir imagen", command=enviar_imagen)
+    button = ttk.Button(text="Convertir imagen", command=enviar_imagen) #Boton para convertir imagen
     button.place(x=550, y=alto_ventana)
 
     lblTitulo=tk.Label(frame,text='Espere por favor')   #Crea una etiqueta
