@@ -21,7 +21,7 @@ import time #Para medir el tiempo
 import urllib.request #Para soportar nuevos protocolos.
 
 def guardar_imagen():
-#Credenciales de cloudinary:
+    #Credenciales de cloudinary:
     cloudinary.config( 
         cloud_name = "dfvalentin", 
         api_key = "897557139935321", 
